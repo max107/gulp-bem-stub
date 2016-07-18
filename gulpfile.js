@@ -20,9 +20,7 @@ var levels = [
 ];
 
 gulp.task('deps', function (done) {
-    var tree = bem.objects(levels)
-        .pipe(bem.deps())
-        .pipe(bem.tree());
+    var tree = bem(levels);
 
     deps = tree.deps('pages/index/page');
 
@@ -31,23 +29,27 @@ gulp.task('deps', function (done) {
     done();
 });
 
-gulp.task('css', ['deps', 'clean'], function () {
-    return deps.src('{bem}.css')
+gulp.task('css', ['deps'], function () {
+    return deps
+        .pipe(bem.src('{bem}.css'))
         .pipe(concat('index.css'))
         .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('html', ['deps', 'clean'], function () {
+gulp.task('html', ['deps'], function () {
     delete require.cache[require.resolve('./pages/index/page/page.bemjson.js')];
-    return deps.src('{bem}.bh.js')
+    return deps
+        .pipe(bem.src('{bem}.bh.js'))
         .pipe(bh(require('./pages/index/page/page.bemjson.js'), 'index.html'))
         .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('build', ['clean', 'html', 'css']);
+gulp.task('build', ['clean'], function () {
+    gulp.start(['html', 'css']);
+});
 
-gulp.task('clean', function (cb) {
-    del(['./dist'], cb);
+gulp.task('clean', function () {
+    del(['./dist']);
 });
 
 gulp.task('watch', ['build'], function() {

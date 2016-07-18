@@ -1,11 +1,5 @@
-.tagline
-{
-    font-size: 26px;
+.tagline {
+    font-size: 1.05rem;
     line-height: 40px;
-
-    width: 500px;
-    margin: 0 auto;
     margin-top: 50px;
-
-    text-align: center;
 }

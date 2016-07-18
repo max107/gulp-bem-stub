@@ -1,5 +1,5 @@
 module.exports.expect = [
-    { block: 'logo' },
+    { block: 'hero' },
     { block: 'tagline' },
-    { block: 'menu' },
+    { block: 'menu' }
 ];
